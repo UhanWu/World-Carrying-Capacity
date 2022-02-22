@@ -11,6 +11,166 @@ library(tidyverse)
 library(ggplot2)
 ```
 
+```{r}
+barley <- read.csv("barley-production.csv")
+cassava <- read.csv("cassava-production.csv")
+cereal <- read.csv("cereal-production.csv")
+maize <- read.csv("maize-production.csv")
+potato <- read.csv("potato-production.csv")
+rice <- read.csv("rice-production.csv")
+rye <- read.csv("rye-production.csv")
+sweetpotato <- read.csv("sweet-potato-production.csv")
+wheat <- read.csv("wheat-production.csv")
+yams <- read.csv("yams-production.csv")
+
+apple <- read.csv("apple-production.csv")
+avocado <- read.csv("avocado-production.csv")
+banana <- read.csv("banana-production.csv")
+bean <- read.csv("bean-production.csv")
+cashew <- read.csv("cashew-nut-production.csv")
+grapes <- read.csv("grapes-production.csv")
+orange <- read.csv("orange-production.csv")
+pea <- read.csv("pea-production.csv")
+soybean <- read.csv("soybean-production.csv")
+tomato <- read.csv("tomato-production.csv")
+
+```
+
+
+```{r}
+names(barley)[4] <- 'Production'
+names(cassava)[4] <- 'Production'
+names(cereal)[4] <- 'Production'
+names(maize)[4] <- 'Production'
+names(potato)[4] <- 'Production'
+names(rice)[4] <- 'Production'
+names(rye)[4] <- 'Production'
+names(sweetpotato)[4] <- 'Production'
+names(wheat)[4] <- 'Production'
+names(yams)[4] <- 'Production'
+
+names(apple)[4] <- 'Production'
+names(avocado)[4] <- 'Production'
+names(banana)[4] <- 'Production'
+names(bean)[4] <- 'Production'
+names(cashew)[4] <- 'Production'
+names(grapes)[4] <- 'Production'
+names(orange)[4] <- 'Production'
+names(pea)[4] <- 'Production'
+names(soybean)[4] <- 'Production'
+names(tomato)[4] <- 'Production'
+```
+
+```{r}
+barley2 <- barley %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+cassava2 <- cassava %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+cereal2 <- cereal %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+maize2 <- maize %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+potato2 <- potato %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+rice2 <- rice %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+rye2 <- rye %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+sweetpotato2 <- sweetpotato %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+wheat2 <- wheat %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+
+apple2 <- apple %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+avocado2 <- avocado %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+banana2 <- banana %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+bean2 <- bean %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+cashew2 <- cashew %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+grapes2 <- grapes %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+orange2 <- orange %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+pea2 <- pea %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+soybean2 <- soybean %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+tomato2 <- tomato %>%
+  filter(Entity == "World") %>%
+  select(Entity, Year, Production)
+
+
+
+
+
+```
+
+
+
+
+```{r}
+Production_combine <- bind_rows(barley2,cassava2,cereal2, cereal2, maize2, potato2, rice2, rye2, sweetpotato2, wheat2, yams2,apple2, avocado2, banana2, bean2, cashew2, grapes2, orange2, pea2, soybean2, tomato2) %>%
+  group_by(Year) %>%
+  summarise(Production_all = sum(Production)) 
+
+Production_combine %>%
+  ggplot(mapping = aes(x = Year, y = Production_all))+
+  geom_line()
+
+
+
+
+
+```
+
+```{r}
+cassava %>%
+  filter(Entity == "World") %>%
+  ggplot(aes(x = Year, y = Crops...Cassava...125...Production...5510...tonnes))+
+  geom_line()+
+  labs(x = "Year", y = "Production")
+
+```
 
 
 ## R Markdown
