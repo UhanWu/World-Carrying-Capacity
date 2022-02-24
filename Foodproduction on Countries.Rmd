@@ -2,7 +2,9 @@
 title: "Foodproduction on Countries"
 author: "Yuhan Wu"
 date: "A/A4/A0AA"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +18,7 @@ library(ggplot2)
 library(ggthemes)
 ```
 
-```{r}
+```{r, echo=FALSE}
 barleyA <- read.csv("barley-production.csv")
 cassavaA <- read.csv("cassava-production.csv")
 cerealA <- read.csv("cereal-production.csv")
@@ -40,7 +42,7 @@ soybeanA <- read.csv("soybean-production.csv")
 tomatoA <- read.csv("tomato-production.csv")
 ```
 
-```{r}
+```{r,echo=FALSE}
 names(barleyA)[4] <- 'Production'
 names(cassavaA)[4] <- 'Production'
 names(cerealA)[4] <- 'Production'
@@ -65,17 +67,67 @@ names(tomatoA)[4] <- 'Production'
   
 ```
 
-```{r}
+```{r, echo=FALSE}
 countries_prod <- bind_rows(barleyA,cassavaA,cerealA, cerealA, maizeA, potatoA, riceA, ryeA, sweetpotatoA, wheatA, yamsA,appleA, avocadoA, bananaA, beanA, cashewA, grapesA, orangeA, peaA, soybeanA, tomatoA)
 
-prod_plotly <- countries_prod %>%
-  select(Entity,Year,Production)%>%
-  group_by(Entity) %>%
-  summarise(Year,Production, .groups = 'drop') %>%
-  ggplot(aes(x = Year, y = Production))+
-  geom_line(aes(color = Entity))
+Northern_America <- countries_prod %>%
+  filter(Entity == "Northern America") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Northern America")
 
-ggplotly(prod_plotly)
+Africa <- countries_prod %>%
+  filter(Entity == "Africa") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Africa")
+
+Europe <- countries_prod %>%
+  filter(Entity == "Europe") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Europe")
+
+Asia <- countries_prod %>%
+  filter(Entity == "Asia") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Asia")
+
+South_America <- countries_prod %>%
+  filter(Entity == "South America") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "South America")
+
+Central_America <- countries_prod %>%
+  filter(Entity == "Central America") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Central America")
+
+Oceania <- countries_prod %>%
+  filter(Entity == "Oceania") %>%
+  select(Year,Production)%>%
+  group_by(Year) %>%
+  summarise(Production = sum(Production)/1000000000, .groups = 'drop')%>%
+  mutate(Continent = "Oceania")
+
+bind_rows(Northern_America,Africa,Europe,Asia,South_America,Central_America,Oceania) %>%
+  ggplot(aes(x=Year, y = Production, color = Continent))+
+  geom_line()+
+  scale_x_continuous( breaks = c(1960, 1970, 1980, 1990, 2000, 2010, 2020))+
+  labs(title = "Food Production For Different Continents", subtitle = "Asia take the lead in food production",y = "Production (Billion)")
+
+
+
+
 ```
 
 
