@@ -1,0 +1,85 @@
+---
+title: "Foodproduction on Countries"
+author: "Yuhan Wu"
+date: "A/A4/A0AA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(plotly)
+library(png)
+library(ggplot2)
+library(ggthemes)
+```
+
+```{r}
+barleyA <- read.csv("barley-production.csv")
+cassavaA <- read.csv("cassava-production.csv")
+cerealA <- read.csv("cereal-production.csv")
+maizeA <- read.csv("maize-production.csv")
+potatoA <- read.csv("potato-production.csv")
+riceA <- read.csv("rice-production.csv")
+ryeA <- read.csv("rye-production.csv")
+sweetpotatoA <- read.csv("sweet-potato-production.csv")
+wheatA <- read.csv("wheat-production.csv")
+yamsA <- read.csv("yams-production.csv")
+
+appleA <- read.csv("apple-production.csv")
+avocadoA <- read.csv("avocado-production.csv")
+bananaA <- read.csv("banana-production.csv")
+beanA <- read.csv("bean-production.csv")
+cashewA <- read.csv("cashew-nut-production.csv")
+grapesA <- read.csv("grapes-production.csv")
+orangeA <- read.csv("orange-production.csv")
+peaA <- read.csv("pea-production.csv")
+soybeanA <- read.csv("soybean-production.csv")
+tomatoA <- read.csv("tomato-production.csv")
+```
+
+```{r}
+names(barleyA)[4] <- 'Production'
+names(cassavaA)[4] <- 'Production'
+names(cerealA)[4] <- 'Production'
+names(maizeA)[4] <- 'Production'
+names(potatoA)[4] <- 'Production'
+names(riceA)[4] <- 'Production'
+names(ryeA)[4] <- 'Production'
+names(sweetpotatoA)[4] <- 'Production'
+names(wheatA)[4] <- 'Production'
+names(yamsA)[4] <- 'Production'
+
+names(appleA)[4] <- 'Production'
+names(avocadoA)[4] <- 'Production'
+names(bananaA)[4] <- 'Production'
+names(beanA)[4] <- 'Production'
+names(cashewA)[4] <- 'Production'
+names(grapesA)[4] <- 'Production'
+names(orangeA)[4] <- 'Production'
+names(peaA)[4] <- 'Production'
+names(soybeanA)[4] <- 'Production'
+names(tomatoA)[4] <- 'Production'
+  
+```
+
+```{r}
+countries_prod <- bind_rows(barleyA,cassavaA,cerealA, cerealA, maizeA, potatoA, riceA, ryeA, sweetpotatoA, wheatA, yamsA,appleA, avocadoA, bananaA, beanA, cashewA, grapesA, orangeA, peaA, soybeanA, tomatoA)
+
+prod_plotly <- countries_prod %>%
+  select(Entity,Year,Production)%>%
+  group_by(Entity) %>%
+  summarise(Year,Production, .groups = 'drop') %>%
+  ggplot(aes(x = Year, y = Production))+
+  geom_line(aes(color = Entity))
+
+ggplotly(prod_plotly)
+```
+
+
+
+
+
+
